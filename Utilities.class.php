@@ -2,6 +2,5 @@
 namespace spacet\wechat;
 class Utilities
 {
-       
 }
 ?>
