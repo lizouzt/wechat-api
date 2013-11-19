@@ -38,6 +38,11 @@ class WeChat
 	public function getLocationMsg ()
 	{}
 
+	public function getUserInfo($openId){
+	    $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$msg['FromUserName'];
+	    return $this->_sendRequest($url);
+	}
+	
 	public function checkSignature ($signature, $timestamp, $nonce)
 	{
 		$token = TOKEN;
