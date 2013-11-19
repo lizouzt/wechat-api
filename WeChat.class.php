@@ -17,10 +17,11 @@ class WeChat
 		 APPID . "&secret=" . APPSECRET;
 		return $this->_sendRequest($url);
 	}
-	
-	public function getMsg($data){
-	    $msg = $this->_parseMsg($data);
-	    return $msg;
+
+	public function getMsg ($data)
+	{
+		$msg = $this->_parseMsg($data);
+		return $msg;
 	}
 
 	public function getTextMsg ()
@@ -38,11 +39,13 @@ class WeChat
 	public function getLocationMsg ()
 	{}
 
-	public function getUserInfo($openId){
-	    $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$msg['FromUserName'];
-	    return $this->_sendRequest($url);
+	public function getUserInfo ($accessToken, $openId)
+	{
+		$url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" .
+		 $accessToken . "&openid=" . $openId;
+		return $this->_sendRequest($url);
 	}
-	
+
 	public function checkSignature ($signature, $timestamp, $nonce)
 	{
 		$token = TOKEN;
@@ -60,7 +63,8 @@ class WeChat
 	private function _parseMsg ($data)
 	{
 		$_msg = array();
-		$_data = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
+		$_data = simplexml_load_string($data, 'SimpleXMLElement', 
+		LIBXML_NOCDATA);
 		if (is_object($_data)) {
 			foreach ($_data as $v) {
 				$name = $v->getName();
