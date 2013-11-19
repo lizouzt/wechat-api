@@ -39,6 +39,18 @@ class WeChat
 	public function getLocationMsg ()
 	{}
 
+	public function sendTextMsg ($toUserName, $fromUserName, $content)
+	{
+		$text = "<xml>
+<ToUserName><![CDATA[" . $toUserName . "]]></ToUserName>
+<FromUserName><![CDATA[" . $fromUserName . "]]></FromUserName>
+<CreateTime>" . time() . "</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[" . $content . "]]></Content>
+</xml>";
+		return $text;
+	}
+
 	public function getUserInfo ($accessToken, $openId)
 	{
 		$url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" .
