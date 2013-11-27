@@ -1,4 +1,10 @@
 <?php
+/**
+ * 
+ * wechat-api
+ * @author tangjinwei
+ *
+ */
 namespace spacet\wechat;
 require ("config.php");
 require ("Utilities.class.php");
