@@ -3,6 +3,7 @@
  * 
  * wechat-api
  * @author tangjinwei
+ * @version 0.1
  *
  */
 namespace spacet\wechat;
@@ -27,6 +28,19 @@ class WeChat
 	public function getMsg ($data)
 	{
 		$msg = $this->_parseMsg($data);
+		if ($msg['MsgType'] == 'text') {
+			echo "";
+		} elseif ($msg['MsgType'] == 'image') {
+			echo "";
+		} elseif ($msg['MsgType'] == 'voice') {
+			echo "";
+		} elseif ($msg['MsgType'] == 'video') {
+			echo "";
+		} elseif ($msg['MsgType'] == 'location') {
+			echo "";
+		} elseif ($msg['MsgType'] == 'link') {
+			echo "";
+		}
 		return $msg;
 	}
 
@@ -62,6 +76,12 @@ class WeChat
 		$url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" .
 		 $accessToken . "&openid=" . $openId;
 		return $this->_sendRequest($url);
+	}
+
+	public function sendCustomMsg ($accessToken, $openId)
+	{
+		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" .
+		 $accessToken;
 	}
 
 	public function checkSignature ($signature, $timestamp, $nonce)
