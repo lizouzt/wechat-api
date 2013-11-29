@@ -80,10 +80,20 @@ class WeChat
 		return $this->_sendRequest($url);
 	}
 
-	public function sendCustomMsg ($accessToken, $openId)
+	public function sendCustomMsg ($accessToken, $openId, $content)
 	{
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" .
 		 $accessToken;
+		$data = "{
+    \"touser\":" . $openId . ",
+    \"msgtype\":\"text\",
+    \"text\":
+    {
+         \"content\":$content
+    }
+}";
+		$result = $this->utilities->post($url, $data);
+		return $result;
 	}
 
 	public function checkSignature ($signature, $timestamp, $nonce)
