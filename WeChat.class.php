@@ -89,7 +89,7 @@ class WeChat
     \"msgtype\":\"text\",
     \"text\":
     {
-         \"content\":\"".$content."\"
+         \"content\":\"" . $content . "\"
     }
 }";
 		$result = $this->utilities->post($url, $data);
@@ -155,7 +155,7 @@ class WeChat
 
 	private function _sendRequest ($url)
 	{
-		$result = file_get_contents($url);
+		$result = $this->utilities->get($url);
 		$_result = $this->_parseResult($result);
 		return $_result;
 	}
