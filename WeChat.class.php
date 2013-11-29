@@ -8,15 +8,17 @@
  */
 namespace spacet\wechat;
 require ("config.php");
-require ("Utilities.class.php");
 class WeChat
 {
 	private $_api;
 	private $_errcode;
 	private $_errmsg;
+	public $utilities;
 
 	public function __construct ()
-	{}
+	{
+		$this->utilities = new Utilities();
+	}
 
 	public function getAccessToken ()
 	{
