@@ -85,11 +85,11 @@ class WeChat
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" .
 		 $accessToken;
 		$data = "{
-    \"touser\":" . $openId . ",
+    \"touser\":\"" . $openId . "\",
     \"msgtype\":\"text\",
     \"text\":
     {
-         \"content\":$content
+         \"content\":\"".$content."\"
     }
 }";
 		$result = $this->utilities->post($url, $data);
