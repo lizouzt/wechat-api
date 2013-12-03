@@ -22,17 +22,15 @@ class Command
 	public function parseUserInput ($cmd, $openId)
 	{
 		$last_input = $this->_getLastInputByUser($openId);
-		
 	}
 
 	private function _getLastInputByUser ($openId)
 	{
 		$db = new MysqliDb("localhost", "root", "modernmedia", "wechat", 3306);
-		$params = array($openId, 'log_id', 'DESC', '0,1');
+		$params = array($openId);
 		$result = $db->rawQuery(
-		"SELECT * FROM wechat_input_log WHERE log_openId = ? ORDER BY ? LIMIT ?", 
+		"SELECT * FROM wechat_input_log WHERE log_openId = ? ORDER BY log_id DESC LIMIT 1", 
 		$params);
-		var_dump($result);
 		return $result;
 	}
 
@@ -40,9 +38,8 @@ class Command
 	$log_content)
 	{
 		$db = new MysqliDb("localhost", "root", "modernmedia", "wechat", 3306);
-		$insertData = array('log_cmd' => $log_cmd, 
-		'log_subcmd' => $log_subcmd, 'log_openId' => $log_openId, 
-		'log_content' => $log_content);
+		$insertData = array('log_cmd' => $log_cmd, 'log_subcmd' => $log_subcmd, 
+		'log_openId' => $log_openId, 'log_content' => $log_content);
 		if ($db->insert('wechat_input_log', $insertData))
 			echo 'success!';
 	}
