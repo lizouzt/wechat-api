@@ -5,8 +5,6 @@ class Command
 
 	private $_cmd;
 
-	private $_subcmd;
-
 	private $_expectation = array();
 
 	public function __construct ()
@@ -15,7 +13,6 @@ class Command
 	public function registerCmd ($cmd)
 	{
 		$this->_cmd = $cmd;
-		var_dump($this->_cmd);
 	}
 
 	public function parseUserInput ($input, $openId)
@@ -26,7 +23,8 @@ class Command
 		}
 		if (isset($this->_expectation['subcmd'])) { //优先判断用户输入的是否为二级命令
 			if (($input['type'] == $this->_expectation['subcmd']['type']) &&
-			 (ereg($this->_expectation['subcmd']['pattern'], $input['body']))) {
+			 (preg_match($this->_expectation['subcmd']['pattern'], 
+			$input['body']))) {
 				$result = call_user_func_array(
 				$this->_expectation['subcmd']['callback']['func'], 
 				array($openId, $input['body']));
@@ -62,7 +60,7 @@ class Command
 			$subcmd = isset($cmd['sub']) ? $cmd['sub'] : false;
 			if ($subcmd) { //上次输入有二级命令，继续track
 				$key = $lastInput['log_subcmd_order'];
-				if (($key + 1) < count($subcmd)) { //上次输入还没有到二级命令尽头，继续track
+				if (($key + 1) <= count($subcmd)) { //上次输入还没有到二级命令尽头，继续track
 					$expectation = $subcmd[$key];
 					$expectation['order'] = $key + 1;
 				}
@@ -73,7 +71,7 @@ class Command
 
 	private function _getCmdByKey ($key)
 	{
-		if (isset($this->cmd[$key])) {
+		if (isset($this->_cmd[$key])) {
 			return $this->_cmd[$key];
 		}
 		return false;
