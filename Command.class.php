@@ -15,7 +15,6 @@ class Command
 	public function registerCmd ($cmd)
 	{
 		$this->_cmd = $cmd;
-		
 		var_dump($this->_cmd);
 	}
 
@@ -37,11 +36,11 @@ class Command
 			}
 		}
 		if (! isset($result)) { //没有匹配到合适的二级命令，继续回到一级命令
-			if (in_array($input['body'], $this->_cmd)) {
+			if (isset($this->_cmd[$input['body']])) {
 				$result = call_user_func_array(
 				$this->_cmd[$input['body']]['callback']['func'], 
 				array($openId, $input['body']));
-				$log_cmd = $input['log_cmd'];
+				$log_cmd = $input['body'];
 				$log_subcmd = "";
 				$log_subcmd_order = 0;
 			}
