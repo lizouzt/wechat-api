@@ -22,9 +22,8 @@ class Command
 			$this->_expectation['subcmd'] = $this->_parseLastInput($last_input);
 		}
 		if (isset($this->_expectation['subcmd'])) { //优先判断用户输入的是否为二级命令
-			if (($input['type'] == $this->_expectation['subcmd']['type']) &&
-			 (preg_match($this->_expectation['subcmd']['pattern'], 
-			$input['body']))) {
+			if (($input['type'] == $this->_expectation['subcmd']['type']) && (preg_match(
+			$this->_expectation['subcmd']['pattern'], $input['body']))) {
 				$result = call_user_func_array(
 				$this->_expectation['subcmd']['callback']['func'], 
 				array($openId, $input['body']));
@@ -47,8 +46,10 @@ class Command
 			$result = array('status' => 2, 'output' => 'unrecognized cmd');
 		}
 		if ($result['status'] == 1) {
-			$this->_addUserInput($log_cmd, $log_subcmd, $log_subcmd_order, 
-			$openId, $log_subcmd);
+			if (! $this->_addUserInput($log_cmd, $log_subcmd, $log_subcmd_order, 
+			$openId, $log_subcmd)) {
+				return false;
+			}
 		}
 		return $result;
 	}
@@ -97,8 +98,10 @@ class Command
 		$insertData = array('log_cmd' => $log_cmd, 'log_subcmd' => $log_subcmd, 
 		'log_subcmd_order' => $log_subcmd_order, 'log_openId' => $log_openId, 
 		'log_content' => $log_content);
-		if ($db->insert('wechat_input_log', $insertData))
-			echo 'success!';
+		if ($db->insert('wechat_input_log', $insertData)) {
+			return true;
+		}
+		return false;
 	}
 }
 ?>
