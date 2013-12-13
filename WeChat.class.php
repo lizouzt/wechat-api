@@ -147,6 +147,8 @@ class WeChat
 					$_msg['Scale'] = $value;
 				} elseif ($name == "Label") {
 					$_msg['Label'] = $value;
+				} elseif ($name == "Event") {
+					$_msg['Label'] = $value;
 				}
 			}
 		}
