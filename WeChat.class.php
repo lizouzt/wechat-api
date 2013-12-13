@@ -30,19 +30,19 @@ class WeChat
 	public function getMsg ($data)
 	{
 		$msg = $this->_parseMsg($data);
-		if ($msg['MsgType'] == 'text') {
-			echo "";
-		} elseif ($msg['MsgType'] == 'image') {
-			echo "";
-		} elseif ($msg['MsgType'] == 'voice') {
-			echo "";
-		} elseif ($msg['MsgType'] == 'video') {
-			echo "";
-		} elseif ($msg['MsgType'] == 'location') {
-			echo "";
-		} elseif ($msg['MsgType'] == 'link') {
-			echo "";
-		}
+//		if ($msg['MsgType'] == 'text') {
+//			echo "";
+//		} elseif ($msg['MsgType'] == 'image') {
+//			echo "";
+//		} elseif ($msg['MsgType'] == 'voice') {
+//			echo "";
+//		} elseif ($msg['MsgType'] == 'video') {
+//			echo "";
+//		} elseif ($msg['MsgType'] == 'location') {
+//			echo "";
+//		} elseif ($msg['MsgType'] == 'link') {
+//			echo "";
+//		}
 		return $msg;
 	}
 
@@ -148,7 +148,7 @@ class WeChat
 				} elseif ($name == "Label") {
 					$_msg['Label'] = $value;
 				} elseif ($name == "Event") {
-					$_msg['Label'] = $value;
+					$_msg['Event'] = $value;
 				}
 			}
 		}
