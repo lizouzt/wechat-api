@@ -6,16 +6,20 @@ class Command
 	private $_cmd;
 
 	private $_expectation = array();
-	
+
 	private $_unrecognized_output = "unrecognized cmd";
+
+	private $_cmd_alias;
 
 	public function __construct ()
 	{}
 
-	public function registerCmd ($cmd, $unrecognizedOutput = "")
+	public function registerCmd ($cmd, $unrecognizedOutput = "", 
+	$cmdAlias = array())
 	{
 		$this->_cmd = $cmd;
 		$this->_unrecognized_output = ($unrecognizedOutput == "") ? $this->_unrecognized_output : $unrecognizedOutput;
+		$this->_cmd_alias = (is_array($cmdAlias) && (count($cmdAlias) > 0)) ? $cmdAlias : array();
 	}
 
 	public function parseUserInput ($input, $openId)
@@ -37,16 +41,23 @@ class Command
 		}
 		if (! isset($result)) { //没有匹配到合适的二级命令，继续回到一级命令
 			if (isset($this->_cmd[$input['body']])) {
+				$cmd = $input['body'];
+			} else { //没有找到一级命令，看是否有相应的Alias
+				if (isset($this->_cmd_alias[$input['body']])) {
+					$cmd = $this->_cmd_alias[$input['body']];
+				}
+			}
+			if (isset($cmd)) {
 				$result = call_user_func_array(
-				$this->_cmd[$input['body']]['callback']['func'], 
-				array($openId, $input['body']));
-				$log_cmd = $input['body'];
+				$this->_cmd[$cmd]['callback']['func'], array($openId, $cmd));
+				$log_cmd = $cmd;
 				$log_subcmd = "";
 				$log_subcmd_order = 0;
 			}
 		}
 		if (! isset($result)) { //未匹配到任何命令
-			$result = array('status' => 2, 'output' => $this->_unrecognized_output);
+			$result = array('status' => 2, 
+			'output' => $this->_unrecognized_output);
 		}
 		if ($result['status'] == 1) {
 			if (! $this->_addUserInput($log_cmd, $log_subcmd, $log_subcmd_order, 
