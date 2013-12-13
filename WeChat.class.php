@@ -90,7 +90,7 @@ class WeChat
 <MsgType><![CDATA[news]]></MsgType>
 <ArticleCount>" . $article_count . "</ArticleCount>
 <Articles>";
-		$picurl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?token=747860832&msgid={msgid}&mode=large&source=file&fileId=10015131&ow=-1";
+		$picurl = "http://mmbiz.qpic.cn/mmbiz/qUKh7COtPe0xgFtpdrXT396pdU2sUsWNPG0QsjbHPLhQ555TRsMkZ15Uq1mqUIyKqB5I0rQvGwzVzN8xba2QyA/0";
 		$url = "http://www.bbwc.cn";
 		$text .= "<item>
 <Title><![CDATA[test title]]></Title> 
