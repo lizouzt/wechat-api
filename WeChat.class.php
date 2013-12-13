@@ -82,7 +82,7 @@ class WeChat
 		if (is_array($Articles) && count($Articles) > 0) {
 			$article_count = count($Articles);
 		}
-		$article_count = 1;
+		//$article_count = 1;
 		$text = "<xml>
 <ToUserName><![CDATA[" . $toUserName . "]]></ToUserName>
 <FromUserName><![CDATA[" . $fromUserName . "]]></FromUserName>
@@ -90,14 +90,18 @@ class WeChat
 <MsgType><![CDATA[news]]></MsgType>
 <ArticleCount>" . $article_count . "</ArticleCount>
 <Articles>";
-		$picurl = "http://mmbiz.qpic.cn/mmbiz/qUKh7COtPe0xgFtpdrXT396pdU2sUsWNPG0QsjbHPLhQ555TRsMkZ15Uq1mqUIyKqB5I0rQvGwzVzN8xba2QyA/0";
-		$url = "http://www.bbwc.cn";
-		$text .= "<item>
-<Title><![CDATA[test title]]></Title> 
-<Description><![CDATA[test description]]></Description>
-<PicUrl><![CDATA[" . $picurl . "]]></PicUrl>
-<Url><![CDATA[" . $url . "]]></Url>
-</item>";
+		foreach ($Articles as $article) {
+			if (is_array($article)) {
+				$text .= "<item>";
+				$text .= "<Title><![CDATA[" . $article['title'] . "]]></Title>";
+				$text .= "<Description><![CDATA[" . $article['description'] .
+				 "]]></Description>";
+				$text .= "<PicUrl><![CDATA[" . $article['picurl'] .
+				 "]]></PicUrl>";
+				$text .= "<Url><![CDATA[" . $article['url'] . "]]></Url>";
+				$text .= "</item>";
+			}
+		}
 		$text .= "</Articles></xml>";
 		return $text;
 	}
