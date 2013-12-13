@@ -99,6 +99,7 @@ class WeChat
 <Url><![CDATA[" . $url . "]]></Url>
 </item>";
 		$text .= "</Articles></xml>";
+		return $text;
 	}
 
 	public function getUserInfo ($accessToken, $openId)
