@@ -6,13 +6,16 @@ class Command
 	private $_cmd;
 
 	private $_expectation = array();
+	
+	private $_unrecognized_output = "unrecognized cmd";
 
 	public function __construct ()
 	{}
 
-	public function registerCmd ($cmd)
+	public function registerCmd ($cmd, $unrecognizedOutput = "")
 	{
 		$this->_cmd = $cmd;
+		$this->_unrecognized_output = ($unrecognizedOutput == "") ? $this->_unrecognized_output : $unrecognizedOutput;
 	}
 
 	public function parseUserInput ($input, $openId)
@@ -43,7 +46,7 @@ class Command
 			}
 		}
 		if (! isset($result)) { //未匹配到任何命令
-			$result = array('status' => 2, 'output' => 'unrecognized cmd');
+			$result = array('status' => 2, 'output' => $this->_unrecognized_output);
 		}
 		if ($result['status'] == 1) {
 			if (! $this->_addUserInput($log_cmd, $log_subcmd, $log_subcmd_order, 
