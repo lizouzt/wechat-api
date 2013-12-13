@@ -10,9 +10,13 @@ namespace spacet\wechat;
 require ("config.php");
 class WeChat
 {
+
 	private $_api;
+
 	private $_errcode;
+
 	private $_errmsg;
+
 	public $utilities;
 
 	public function __construct ()
@@ -30,19 +34,19 @@ class WeChat
 	public function getMsg ($data)
 	{
 		$msg = $this->_parseMsg($data);
-//		if ($msg['MsgType'] == 'text') {
-//			echo "";
-//		} elseif ($msg['MsgType'] == 'image') {
-//			echo "";
-//		} elseif ($msg['MsgType'] == 'voice') {
-//			echo "";
-//		} elseif ($msg['MsgType'] == 'video') {
-//			echo "";
-//		} elseif ($msg['MsgType'] == 'location') {
-//			echo "";
-//		} elseif ($msg['MsgType'] == 'link') {
-//			echo "";
-//		}
+		//		if ($msg['MsgType'] == 'text') {
+		//			echo "";
+		//		} elseif ($msg['MsgType'] == 'image') {
+		//			echo "";
+		//		} elseif ($msg['MsgType'] == 'voice') {
+		//			echo "";
+		//		} elseif ($msg['MsgType'] == 'video') {
+		//			echo "";
+		//		} elseif ($msg['MsgType'] == 'location') {
+		//			echo "";
+		//		} elseif ($msg['MsgType'] == 'link') {
+		//			echo "";
+		//		}
 		return $msg;
 	}
 
@@ -71,6 +75,30 @@ class WeChat
 <Content><![CDATA[" . $content . "]]></Content>
 </xml>";
 		return $text;
+	}
+
+	public function sendNewsMsg ($toUserName, $fromUserName, $Articles = array())
+	{
+		if (is_array($Articles) && count($Articles) > 0) {
+			$article_count = count($Articles);
+		}
+		$article_count = 1;
+		$text = "<xml>
+<ToUserName><![CDATA[" . $toUserName . "]]></ToUserName>
+<FromUserName><![CDATA[" . $fromUserName . "]]></FromUserName>
+<CreateTime>" . time() . "</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>" . $article_count . "</ArticleCount>
+<Articles>";
+		$picurl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?token=747860832&msgid={msgid}&mode=large&source=file&fileId=10015131&ow=-1";
+		$url = "http://www.bbwc.cn";
+		$text .= "<item>
+<Title><![CDATA[test title]]></Title> 
+<Description><![CDATA[test description]]></Description>
+<PicUrl><![CDATA[" . $picurl . "]]></PicUrl>
+<Url><![CDATA[" . $url . "]]></Url>
+</item>";
+		$text .= "</Articles></xml>";
 	}
 
 	public function getUserInfo ($accessToken, $openId)
